@@ -1,0 +1,23 @@
+[
+    {
+        "ID": 1,
+        "Nombre": "Nico",
+        "Direccion": "Country San Diego",
+        "Telefono": 381554772,
+        "PedidosEntregados": 0
+    },
+    {
+        "ID": 2,
+        "Nombre": "Diana",
+        "Direccion": "Brasil 2k",
+        "Telefono": 381333872,
+        "PedidosEntregados": 0
+    },
+    {
+        "ID": 3,
+        "Nombre": "Juani",
+        "Direccion": "Simoca",
+        "Telefono": 381332922,
+        "PedidosEntregados": 0
+    }
+]
