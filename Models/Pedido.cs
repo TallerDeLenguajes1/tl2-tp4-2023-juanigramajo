@@ -17,6 +17,27 @@ public class Pedido
         this.Estado = status;
     }
 
+    public Pedido(int nro)
+    {
+        this.Nro = nro;
+        this.Obs = "ninguna";
+        this.cliente = CrearClienteAleatorio(); // Crear cliente aleatorio
+        this.Estado = "En preparacion";
+        this.cadete = null;
+    }
+
+    public Cliente CrearClienteAleatorio()
+    {
+        Random random = new Random();
+        string nombre = "Cliente" + random.Next(1, 100);
+        string direccion = "Dirección" + random.Next(1, 100);
+        int telefono = random.Next(100000000, 999999999);
+        string datosReferenciaDireccion = "Referencia" + random.Next(1, 100);
+        Cliente clienteNuevo = new Cliente(nombre, direccion, telefono, datosReferenciaDireccion);
+        
+        return clienteNuevo;
+    }
+
     public void AsignarCadete(Cadete cadeteEnviado){
         this.cadete = cadeteEnviado;
     }
