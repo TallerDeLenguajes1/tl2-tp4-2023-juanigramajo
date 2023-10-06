@@ -11,10 +11,13 @@ public class Cadeteria
     {
         if (cadeteriaSingleton==null)
         {
-            cadeteriaSingleton = new Cadeteria("cadeteria", 38177363);
+            cadeteriaSingleton = new Cadeteria("cadeteriaAa", 38177363);
         }
         return cadeteriaSingleton;
     }
+
+    public AccesoADatosPedidos cargarPedidos { get; set; }
+    public AccesoADatosCadetes cargarCadetes { get; set; }
 
 
     public Cadeteria(){

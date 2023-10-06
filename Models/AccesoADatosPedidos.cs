@@ -9,15 +9,8 @@ public abstract class AccesoADatosPedidos
     public abstract List<Pedido> Obtener();
     public void Guardar(List<Pedido> listado)
     {
-        ListadoPedidos = listado;
-        string contenido = JsonSerializer.Serialize(ListadoPedidos);
-
-        string filePath = "pedidos.json";
-        if (!File.Exists(filePath))
-        {
-            File.Create(filePath);
-        }
-        File.WriteAllText(filePath, contenido);
+        string contenido = JsonSerializer.Serialize(listado);
+        File.WriteAllText("Models/pedidos.json", contenido);
     }
 }
 

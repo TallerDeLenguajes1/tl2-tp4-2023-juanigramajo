@@ -36,23 +36,43 @@ public class CadeteriaController : ControllerBase
     [Route("Cadetes")]
     public ActionResult<IEnumerable<Cadete>> GetCadetes()
     {
-        var cadetes = cadeteria.ListadoCadetes;
+        var cadetes = cadeteria.cargarCadetes.Obtener();
         return Ok(cadetes);
     }
 
 
     [HttpPost("AddPedido")] //agrega datos
-    public ActionResult<Pedido> AddPedido(Pedido pedido)
+    public IActionResult AddPedido(Pedido pedido)
     {
+        int cant = cadeteria.ListadoPedidos.Count;
         var nuevoPedido = cadeteria.TomarPedido(pedido);
-        return Ok(nuevoPedido);
+
+        if (cadeteria.ListadoPedidos.Count == cant + 1)
+        {
+            cadeteria.cargarPedidos.Guardar(cadeteria.ListadoPedidos);
+            return Ok(nuevoPedido);
+        }
+        else
+        {
+            return StatusCode(500, "Ha ocurrido un error agregando el pedido.");
+        }
     }
 
     [HttpPost("AddCadete")] //agrega datos
     public ActionResult<Cadete> AddCadete(Cadete cadete)
     {
+        int cant = cadeteria.ListadoCadetes.Count;
         var nuevoCadete = cadeteria.AñadirCadete(cadete);
-        return Ok(nuevoCadete);
+
+        if (cadeteria.ListadoCadetes.Count == cant + 1)
+        {
+            cadeteria.cargarCadetes.Guardar(cadeteria.ListadoCadetes);
+            return Ok(nuevoCadete);
+        }
+        else
+        {
+            return StatusCode(500, "Ha ocurrido un error agregando el pedido.");
+        }
     }
 
 
@@ -60,30 +80,34 @@ public class CadeteriaController : ControllerBase
     public ActionResult<Pedido> UpdatePedido(Pedido pedido)
     {
         var updPed = cadeteria.UpdPedido(pedido);
+        cadeteria.cargarPedidos.Guardar(cadeteria.ListadoPedidos);
         return Ok(updPed);
     }
 
 
     [HttpPut("AsignarPedido")]
-    public ActionResult<Pedido> AsignarPedido(int nroPed, int cadeteID)
+    public IActionResult AsignarPedido(int nroPed, int cadeteID)
     {
         var updPed = cadeteria.AsignarCadeteAPedido(cadeteID, nroPed);
-        return Ok(updPed);
+        cadeteria.cargarPedidos.Guardar(cadeteria.ListadoPedidos);
+        return Ok($"Pedido {nroPed} asignado al cadete {cadeteID}.");
     }
 
     [HttpPut("CambiarEstadoPedido")]
-    public ActionResult<Pedido> CambiarEstadoPedido(int nroPed, string nuevoEstado)
+    public IActionResult CambiarEstadoPedido(int nroPed, string nuevoEstado)
     {
         var updEstadoPed = cadeteria.CambiarEstado(nroPed, nuevoEstado);
-        return Ok(updEstadoPed);
+        cadeteria.cargarPedidos.Guardar(cadeteria.ListadoPedidos);
+        return Ok($"Estado del pedido {nroPed} cambiado a {nuevoEstado}.");
     }
+
 
     [HttpPut("CambiarCadetePedido")]
-    public ActionResult<Pedido> CambiarCadetePedido(int nroPed, int cadeteID, int idCadeteNuevo)
+    public ActionResult CambiarCadetePedido(int nroPed, int cadeteID, int idCadeteNuevo)
     {
         var updCadetePed = cadeteria.ReasignarCadete(cadeteID, nroPed, idCadeteNuevo);
-        return Ok(updCadetePed);
-    }
-   
+        cadeteria.cargarPedidos.Guardar(cadeteria.ListadoPedidos);
 
+        return Ok($"Cadete del pedido {nroPed} asignado a {idCadeteNuevo}.");
+    }
 }
